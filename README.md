@@ -31,4 +31,19 @@ tensorflow代码： https://github.com/eragonruan/text-detection-ctpn
         rpn_conv = slim.conv2d(conv5_3, 512, 3)  
         
  (3) 经过FC层，变为 N×512×H×W 的特征，最后经过类似Faster R-CNN的RPN网络，获得text proposals，如图2（b）。  
+ 
+ 二、实验部分  
+ 1. 环境配置：  
+ ![1](https://github.com/JingJLiu/ICDAR2019.github.io/blob/master/train_ReCTS_001867.jpg)  
+ 
+ 2.编译源码：  
+ 
+     cd lib/utils
+     chmod +x Make.sh | Design and Development
+     ./make.sh  
+ 3.准备数据：
+   比赛原始数据：./ICDAR2019/ReCTS/ReCTS_part3/   将ICDAR2019的.xml文件处理成.txt且，标注数据时为顺时针方向。坐标（x1,y1,x2,y2,x3,y3,x4,y4）依次表示左上、右上、左下、右下。  
+  ![1](https://github.com/JingJLiu/ICDAR2019.github.io/blob/master/train_ReCTS_001867.jpg) 
+   
+ 
 
