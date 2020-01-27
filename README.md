@@ -1,21 +1,21 @@
-# ICDAR2019广告牌文本检测
+# ICDAR2019广告牌文本检测  
 
 
-一、论文部分
-论文名称：《Detecting Text in Natural Image with Connectionist Text Proposal Network》
-论文链接：  https://arxiv.org/pdf/1609.03605.pdf
-tensorflow代码： https://github.com/eragonruan/text-detection-ctpn
+一、论文部分  
+论文名称：《Detecting Text in Natural Image with Connectionist Text Proposal Network》  
+论文链接：  https://arxiv.org/pdf/1609.03605.pdf  
+tensorflow代码： https://github.com/eragonruan/text-detection-ctpn   
 
-数据集：自然场景文本数据集(ReCTS)，该数据集包含25，000幅图像，由大量的招牌组成。在数据集中，所有文本行和字符都被标记为位置和字符代码。
+数据集：自然场景文本数据集(ReCTS)，该数据集包含25，000幅图像，由大量的招牌组成。在数据集中，所有文本行和字符都被标记为位置和字符代码。  
 
-1. CTPN是在ECCV 2016提出的一种文字检测算法。CTPN结合CNN与LSTM深度网络，能有效的检测出复杂场景的横向分布的文字，效果如图1。
-                      ![1](https://github.com/JingJLiu/ICDAR2019.github.io/blob/master/train_ReCTS_001867.jpg) 
-                                           图1 场景文本检测（图像出自ICDAR2019测试数据）
-                                           
-2. CPTN网络结构
-            原始CTPN只检测横向排列的文字。CTPN结构与Faster R-CNN基本类似，但是加入了LSTM层。网络结构如图：
-                    ![2](https://github.com/JingJLiu/ICDAR2019.github.io/blob/master/train_ReCTS_001867.jpg)
-                                                 图2 CPTN网络结构
+1. CTPN是在ECCV 2016提出的一种文字检测算法。CTPN结合CNN与LSTM深度网络，能有效的检测出复杂场景的横向分布的文字，效果如图1。  
+                   ![1](https://github.com/JingJLiu/ICDAR2019.github.io/blob/master/train_ReCTS_001867.jpg)   
+                                            图1 场景文本检测（图像出自ICDAR2019测试数据）  
+                                    
+2. CPTN网络结构  
+    原始CTPN只检测横向排列的文字。CTPN结构与Faster R-CNN基本类似，但是加入了LSTM层。网络结构如图：  
+                ![2](https://github.com/JingJLiu/ICDAR2019.github.io/blob/master/train_ReCTS_001867.jpg)  
+                                                   图2 CPTN网络结构  
 
 （1） 假设输入 N Image，利用VGG16提取特征，得到conv5_3的特征作为feature map，大小为N×C×H×W，feature map的宽高都是Image的1/16；
             （VGG16介绍：输入图像224×224×3，则conv5_3的featur map为14×14×512。  https://www.sohu.com/a/241338315_787107）
