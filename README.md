@@ -19,7 +19,7 @@ tensorflow代码： https://github.com/eragonruan/text-detection-ctpn
 (1) 假设输入 N Image，利用VGG16提取特征，得到conv5_3的特征作为feature map，大小为N×C×H×W，feature map的宽高都是Image的1/16；   
         （VGG16介绍：输入图像224×224×3，则conv5_3的featur map为14×14×512。  https://www.sohu.com/a/241338315_787107）  
 (2) 在conv5_3feature map上做3×3的滑动窗口，如下图，即每个点都结合周围3×3区域特征获得一个长度为3×3×C的特征向量。输出N×9C×H×W的feature map，该特征显然只有CNN学习到的空间特征。再将这个feature map进行Reshape成（NH）×W×9C。  
-             ![1](https://github.com/JingJLiu/ICDAR2019.github.io/tree/master/picture/v2-4399a8ecb012241fa542e084eb7d727f_r.jpg)  
+             ![3](https://github.com/JingJLiu/ICDAR2019.github.io/tree/master/picture/v2-4399a8ecb012241fa542e084eb7d727f_r.jpg)  
 然后以Batch=NH,最大时间长度 Tmax=W 的数据流输入BLSTM，学习每一行的序列特征。BLSTM输出为（NH）×W×256，再Reshape恢复为N×256×H×W，该特征既包含空间特征，也包含了LSTM学习到的序列特征。  
     
 在具体代码中，3×3的滑块用3×3的卷积代替  (../nets/model_train）  
@@ -34,7 +34,7 @@ tensorflow代码： https://github.com/eragonruan/text-detection-ctpn
  
  二、实验部分  
  1. 环境配置：  
- ![1](https://github.com/JingJLiu/ICDAR2019.github.io/tree/master/picture/602bedea-0ef7-42a4-a1e0-e8db86f05608.jpg)  
+ ![4](https://github.com/JingJLiu/ICDAR2019.github.io/tree/master/picture/602bedea-0ef7-42a4-a1e0-e8db86f05608.jpg)  
  
  2.编译源码：  
  
@@ -43,7 +43,7 @@ tensorflow代码： https://github.com/eragonruan/text-detection-ctpn
      ./make.sh  
  3.准备数据：
    比赛原始数据：./ICDAR2019/ReCTS/ReCTS_part3/   将ICDAR2019的.xml文件处理成.txt且，标注数据时为顺时针方向。坐标（x1,y1,x2,y2,x3,y3,x4,y4）依次表示左上、右上、左下、右下。  
-  ![1](https://github.com/JingJLiu/ICDAR2019.github.io/tree/master/picture/1e6efabd-9fd0-4ffd-8475-64396bfd3f58.jpg) 
+  ![5](https://github.com/JingJLiu/ICDAR2019.github.io/tree/master/picture/1e6efabd-9fd0-4ffd-8475-64396bfd3f58.jpg) 
    
  
 
