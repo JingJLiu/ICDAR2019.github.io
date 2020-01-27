@@ -1,37 +1,31 @@
-## Welcome to GitHub Pages
+ICDAR2019广告牌文本检测
 
-You can use the [editor on GitHub](https://github.com/JingJLiu/ICDAR2019.github.io/edit/master/index.md) to maintain and preview the content for your website in Markdown files.
+论文名称：《Detecting Text in Natural Image with Connectionist Text Proposal Network》
+论文链接：  https://arxiv.org/pdf/1609.03605.pdf
+tensorflow代码： https://github.com/eragonruan/text-detection-ctpn
 
-Whenever you commit to this repository, GitHub Pages will run [Jekyll](https://jekyllrb.com/) to rebuild the pages in your site, from the content in your Markdown files.
+数据集：自然场景文本数据集(ReCTS)，该数据集包含25，000幅图像，由大量的招牌组成。在数据集中，所有文本行和字符都被标记为位置和字符代码。
 
-### Markdown
+一、论文部分
+CTPN是在ECCV 2016提出的一种文字检测算法。CTPN结合CNN与LSTM深度网络，能有效的检测出复杂场景的横向分布的文字，效果如图1。
+                                                     
+                                                 
+                                            图1 场景文本检测（图像出自ICDAR2019测试数据）
+CPTN网络结构
+            原始CTPN只检测横向排列的文字。CTPN结构与Faster R-CNN基本类似，但是加入了LSTM层。网络结构如图：
+                          
+                                                                                                     图2 CPTN网络结构
 
-Markdown is a lightweight and easy-to-use syntax for styling your writing. It includes conventions for
+（1） 假设输入 N Image，利用VGG16提取特征，得到conv5_3的特征作为feature map，大小为N×C×H×W，feature map的宽高都是Image的1/16；
+            （VGG16介绍：输入图像224×224×3，则conv5_3的featur map为14×14×512。  https://www.sohu.com/a/241338315_787107）
+（2） 在conv5_3feature map上做3×3的滑动窗口，如下图，即每个点都结合周围3×3区域特征获得一个长度为3×3×C的特征向量。输出N×9C×H×W的feature map，该特征显然只有CNN学习到的空间特征。再将这个feature map进行Reshape成（NH）×W×9C。
+                                                                            
+            然后以Batch=NH,最大时间长度 Tmax=W 的数据流输入BLSTM，学习每一行的序列特征。BLSTM输出为（NH）×W×256，再Reshape恢复为N×256×H×W，该特征既包含空间特征，也包含了LSTM学习到的序列特征。
+在具体代码中，3×3的滑块用3×3的卷积代替  (../nets/model_train）
+def model(image):
+    image = mean_image_subtraction(image)
+    with slim.arg_scope(vgg.vgg_arg_scope()):
+        conv5_3 = vgg.vgg_16(image)
+    rpn_conv = slim.conv2d(conv5_3, 512, 3)
 
-```markdown
-Syntax highlighted code block
-
-# Header 1
-## Header 2
-### Header 3
-
-- Bulleted
-- List
-
-1. Numbered
-2. List
-
-**Bold** and _Italic_ and `Code` text
-
-[Link](url) and ![Image](src)
-```
-
-For more details see [GitHub Flavored Markdown](https://guides.github.com/features/mastering-markdown/).
-
-### Jekyll Themes
-
-Your Pages site will use the layout and styles from the Jekyll theme you have selected in your [repository settings](https://github.com/JingJLiu/ICDAR2019.github.io/settings). The name of this theme is saved in the Jekyll `_config.yml` configuration file.
-
-### Support or Contact
-
-Having trouble with Pages? Check out our [documentation](https://help.github.com/categories/github-pages-basics/) or [contact support](https://github.com/contact) and we’ll help you sort it out.
+（3） 经过FC层，变为 N×512×H×W 的特征，最后经过类似Faster R-CNN的RPN网络，获得text proposals，如图2（b）。
