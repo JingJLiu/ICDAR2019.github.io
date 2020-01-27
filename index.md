@@ -10,7 +10,7 @@ tensorflow代码： https://github.com/eragonruan/text-detection-ctpn
 CTPN是在ECCV 2016提出的一种文字检测算法。CTPN结合CNN与LSTM深度网络，能有效的检测出复杂场景的横向分布的文字，效果如图1。
                                                      
                                                
-                          !(https://github.com/JingJLiu/ICDAR2019.github.io/blob/master/train_ReCTS_001867.jpg) 
+                          ![1](https://github.com/JingJLiu/ICDAR2019.github.io/blob/master/train_ReCTS_001867.jpg) 
                                             图1 场景文本检测（图像出自ICDAR2019测试数据）
 CPTN网络结构
             原始CTPN只检测横向排列的文字。CTPN结构与Faster R-CNN基本类似，但是加入了LSTM层。网络结构如图：
